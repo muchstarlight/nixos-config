@@ -19,7 +19,7 @@
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  services.displayManager.gdm = {
+  services.xserver.displayManager.gdm = {
       enable = true;
   };
 
