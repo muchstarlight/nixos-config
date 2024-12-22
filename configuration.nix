@@ -21,7 +21,6 @@
 
   services.displayManager.gdm = {
       enable = true;
-      wayland.enable = true;
   };
 
   services.desktopManager.plasma6.enable = true;  
