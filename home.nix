@@ -96,8 +96,12 @@
     pciutils # lspci
     usbutils # lsusb
  
-    # fonts 
+    # fonts
     nerdfonts
+    noto-fonts 
+    noto-fonts-cjk-serif
+    source-code-pro
+    hack-font
   ];
 
   # git 相关配置
