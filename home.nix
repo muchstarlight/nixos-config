@@ -6,6 +6,7 @@
   home.homeDirectory = pkgs.lib.mkForce "/home/muchstarlight";
 
   imports = [
+    ./home/hyprland/default.nix
   ];
 
   # 直接将当前文件夹的配置文件，链接到 Home 目录下的指定位置
@@ -102,6 +103,7 @@
     noto-fonts-cjk-serif
     source-code-pro
     hack-font
+  
   ];
 
   # git 相关配置
@@ -148,6 +150,10 @@
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
     };
   };
+
+  # hyprland
+  #  programs.kitty.enable = true; # required for the default Hyprland config 
+  #  wayland.windowManager.hyprland.enable = true; # enable Hyprland
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

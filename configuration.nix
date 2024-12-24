@@ -3,9 +3,6 @@
 { 
   imports = [ ./hardware-configuration.nix ];
 
-  # hyprland
-  programs.hyprland.enable = true; # enable Hyprland
-
   # network
   networking = {
       hostName = "nixos";

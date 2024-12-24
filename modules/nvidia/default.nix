@@ -30,13 +30,13 @@
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
-#    prime = { 
-#      sync.enable = true;
-#
-#      # Make sure to use the correct Bus ID values for your system!
-#      intelBusId = "PCI:0:2:0"; # Swap with "intelBusId" if using Intel
-#      nvidiaBusId = "PCI:1:0:0";
-#    };
+    prime = { 
+      sync.enable = true;
+
+      # Make sure to use the correct Bus ID values for your system!
+      intelBusId = "PCI:0:2:0"; # Swap with "intelBusId" if using Intel
+      nvidiaBusId = "PCI:1:0:0";
+    };
     
   };
 
