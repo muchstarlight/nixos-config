@@ -16,11 +16,12 @@
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  services.displayManager.sddm.wayland.enable = true;
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
 
   services.desktopManager.plasma6.enable = true;  
 
-    programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
 
   # 用户和组配置
   users.users.muchstarlight = {
