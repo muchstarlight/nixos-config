@@ -16,11 +16,11 @@
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  services.xserver.displayManager.gdm = {
-      enable = true;
-  };
+  services.displayManager.sddm.wayland.enable = true;
 
   services.desktopManager.plasma6.enable = true;  
+
+    programs.hyprland.enable = true;
 
   # 用户和组配置
   users.users.muchstarlight = {
@@ -41,6 +41,7 @@
     git
     vim
     wget
+    kitty
   ];
 
   nixpkgs.config.allowUnfree = true;

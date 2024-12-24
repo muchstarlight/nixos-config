@@ -1,12 +1,12 @@
 { config, pkgs, ... }:
 
 {
+
   # 注意修改这里的用户名与用户目录
   home.username = "muchstarlight";
   home.homeDirectory = pkgs.lib.mkForce "/home/muchstarlight";
 
   imports = [
-    ./home/hyprland/default.nix
   ];
 
   # 直接将当前文件夹的配置文件，链接到 Home 目录下的指定位置
