@@ -103,7 +103,8 @@
     noto-fonts-cjk-serif
     source-code-pro
     hack-font
-  
+
+    cmd-wrapped
   ];
 
   # git 相关配置
