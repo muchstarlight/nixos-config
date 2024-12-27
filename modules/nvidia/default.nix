@@ -43,7 +43,6 @@
   boot.kernelParams = [ "module_blacklist=i915" ];
   boot.blacklistedKernelModules = [ "nouveau" ];
   boot.initrd.kernelModules = [ "nvidia" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
   #Screen Tearing Issues
   hardware.nvidia.forceFullCompositionPipeline = true;
