@@ -1,9 +1,6 @@
 {
   description = "NixOS configuration";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
     # override the default substituters
@@ -25,6 +22,9 @@
     ];
   };
 
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    
     home-manager = {
       url = "github:nix-community/home-manager";
       # The `follows` keyword in inputs is used for inheritance.
