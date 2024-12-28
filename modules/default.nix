@@ -3,8 +3,9 @@
 {
   imports = [
     ./grub
-    ./gpu
     ./fhs
     ./fcitx5
+    ./gpu/intel/intel-laptop/generic.nix
+    ./gpu/intel/intel-laptop/generic.nix
   ];
 }
