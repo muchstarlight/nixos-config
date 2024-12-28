@@ -16,11 +16,14 @@
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # sddm
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
 
+  # kde
   services.desktopManager.plasma6.enable = true;  
 
+  # hyprland
   programs.hyprland.enable = true;
 
   # 用户和组配置
@@ -42,11 +45,15 @@
     git
     vim
     wget
-  ];
+    clash-verge-rev
+  ]; 
 
+  programs.clash-verge.enable = true;
+
+  # 开启非自由软件包
   nixpkgs.config.allowUnfree = true;
 
   # 系统版本
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }
 
