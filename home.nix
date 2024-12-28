@@ -105,6 +105,8 @@
     hack-font
 
     cmd-wrapped
+
+    clash-verge-rev
   ];
 
   # git 相关配置

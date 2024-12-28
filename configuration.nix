@@ -42,7 +42,6 @@
     git
     vim
     wget
-    clash-verge-rev
   ];
 
   nixpkgs.config.allowUnfree = true;
