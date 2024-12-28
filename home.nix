@@ -98,7 +98,7 @@
     usbutils # lsusb
  
     # fonts
-    nerdfonts
+    nerd-fonts.jetbrains-mono
     noto-fonts 
     noto-fonts-cjk-serif
     source-code-pro

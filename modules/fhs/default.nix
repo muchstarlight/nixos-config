@@ -8,7 +8,7 @@
 
     # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
     (let base = pkgs.appimageTools.defaultFhsEnvArgs; in
-      pkgs.buildFHSUserEnv (base // {
+      pkgs.buildFHSEnv (base // {
       name = "fhs";
       targetPkgs = pkgs: 
         # pkgs.buildFHSUserEnv 只提供一个最小的 FHS 环境，缺少很多常用软件所必须的基础包
