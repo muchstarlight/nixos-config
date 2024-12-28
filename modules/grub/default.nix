@@ -20,11 +20,11 @@
     };
   };
 
-  boot.kernelParams = [
-    "loglevel=7"
-    # Optional: To ignore the log level setting and always print all messages
-    "ignore_loglevel"
-    "modeset=1"
-  ];
+  #  boot.kernelParams = [
+  #   "loglevel=7"
+  #    # Optional: To ignore the log level setting and always print all messages
+  #    "ignore_loglevel"
+  #    "modeset=1"
+  #  ];
 
 }
