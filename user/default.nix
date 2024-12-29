@@ -1,7 +1,7 @@
 { config, pkgs, ...}:
 
 {
-  imports [
+  imports = [
     ./fcitx5
   ];
 }

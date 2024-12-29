@@ -37,9 +37,6 @@
   # kde
   services.desktopManager.plasma6.enable = true;
 
-  # hyprland
-  programs.hyprland.enable = true;
-
   # 用户和组配置
   users.users.muchstarlight = {
     isNormalUser = true; # 确保只设置其中一个
