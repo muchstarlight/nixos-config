@@ -106,6 +106,7 @@
 
     cmd-wrapped
 
+    telegram-desktop
   ];
 
   
@@ -126,13 +127,6 @@
       gcloud.disabled = true;
       line_break.disabled = true;
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    extraConfig = ''
-      set number relativenumber
-    '';
   };
 
   # firefox

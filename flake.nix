@@ -3,7 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
-    
+   
+    nixvim.url = "github:fangjunzhou/nixvim/master";    
+ 
     home-manager = {
       url = "github:nix-community/home-manager";
       # The `follows` keyword in inputs is used for inheritance.
@@ -14,7 +16,7 @@
       };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ nixpkgs, home-manager, nixvim, ... }: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

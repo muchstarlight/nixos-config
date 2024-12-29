@@ -18,7 +18,7 @@ in {
       prime = {
         offload.enable = false; # on-demand
         # sync.enable = false; # always-on
-        amdgpuBusId = "PCI:5:0:0";
+        amdgpuBusId = "PCI:0:2:0";
         nvidiaBusId = "PCI:1:0:0";
       };
       powerManagement.enable = false;
