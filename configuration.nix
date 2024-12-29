@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs,... }:
+{ config, lib, pkgs, ... }:
 
 { 
   imports = [ ./hardware-configuration.nix ];
@@ -46,7 +46,6 @@
     vim
     wget
     clash-verge-rev
-    inputs.nixvim.packages."${pkgs.system}".nixvim
   ]; 
 
   programs.clash-verge.enable = true;

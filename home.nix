@@ -107,9 +107,20 @@
     cmd-wrapped
 
     telegram-desktop
+ 
   ];
 
-  
+  # vscode
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      dracula-theme.theme-dracula
+      vscodevim.vim
+      yzhang.markdown-all-in-one
+    ];
+  }; 
+
+ 
   # git 相关配置
   programs.git = {
     enable = true;
