@@ -1,27 +1,41 @@
 { config, lib, pkgs, ... }:
 
 { 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix
+    ./../modules
+    ];
+
+  boot.loader = {
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      extraEntries = ''
+        menuentry "Windows" {
+          search --file --no-floppy --set=root /EFI/Microsoft/Boot/bootmgfw.efi
+          chainloader (''${root})/EFI/Microsoft/Boot/bootmgfw.efi
+          }
+        '';
+      };
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+    };
 
   # network
   networking = {
-      hostName = "nixos";
+      hostName = "laptop";
       networkmanager.enable = true;
   };
-
-  # time
-  time.timeZone = "Asia/Shanghai";
-  i18n.defaultLocale = "en_US.UTF-8";
-  
-  # Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # sddm
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
 
   # kde
-  services.desktopManager.plasma6.enable = true;  
+  services.desktopManager.plasma6.enable = true;
 
   # hyprland
   programs.hyprland.enable = true;
@@ -37,15 +51,11 @@
   # 创建用户组
   users.groups.muchstarlight = {};
   
-  # 镜像地址  
-  nix.settings.substituters = [ "https://mirrors.ustc.edu.cn/nix-channels/store" ];
 
-  # 预装工具
+  # 软件
   environment.systemPackages = with pkgs; [
-    git
-    vim
-    wget
     clash-verge-rev
+    firefox
   ]; 
 
   programs.clash-verge.enable = true;

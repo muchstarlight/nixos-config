@@ -9,9 +9,6 @@
   imports = [
   ];
 
-  # 直接将当前文件夹的配置文件，链接到 Home 目录下的指定位置
-  # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
-
   # 递归将某个文件夹中的文件，链接到 Home 目录下的指定位置
   # home.file.".config/i3/scripts" = {
   #   source = ./scripts;
@@ -23,7 +20,6 @@
   # home.file.".xxx".text = ''
   #     xxx
   # '';
-
   # 设置鼠标指针大小以及字体 DPI（适用于 4K 显示器）
   xresources.properties = {
     "Xcursor.size" = 16;
@@ -37,6 +33,7 @@
     # 如下是我常用的一些命令行工具，你可以根据自己的需要进行增删
     fastfetch
     yazi # terminal file manager
+
     # archives
     zip
     xz
@@ -96,10 +93,10 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
- 
+
     # fonts
     nerd-fonts.jetbrains-mono
-    noto-fonts 
+    noto-fonts
     noto-fonts-cjk-serif
     source-code-pro
     hack-font
@@ -107,7 +104,7 @@
     cmd-wrapped
 
     telegram-desktop
- 
+
   ];
 
   # vscode
@@ -118,9 +115,11 @@
       vscodevim.vim
       yzhang.markdown-all-in-one
     ];
-  }; 
+  };
 
- 
+  programs.kitty.enable = true;
+  wayland.windowManager.hyprland.enable = true;
+
   # git 相关配置
   programs.git = {
     enable = true;
@@ -161,7 +160,7 @@
   };
 
   # hyprland
-  #  programs.kitty.enable = true; # required for the default Hyprland config 
+  #  programs.kitty.enable = true; # required for the default Hyprland config
   #  wayland.windowManager.hyprland.enable = true; # enable Hyprland
 
   # This value determines the Home Manager release that your
