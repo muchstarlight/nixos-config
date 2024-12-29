@@ -3,9 +3,13 @@
 { 
   imports = [ 
     ./hardware-configuration.nix
+    ./nvidia
     ./../modules
     ];
 
+  services.xserver.displayManager.sddm.enable = true;
+
+  # boot
   boot.loader = {
     grub = {
       enable = true;
@@ -30,13 +34,9 @@
       networkmanager.enable = true;
   };
 
-  # sddm
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-
-  # kde
   services.desktopManager.plasma6.enable = true;
-
+  programs.hyprland.enable = true;
+  
   # 用户和组配置
   users.users.muchstarlight = {
     isNormalUser = true; # 确保只设置其中一个
