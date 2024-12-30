@@ -3,11 +3,11 @@
 { 
   imports = [ 
     ./hardware-configuration.nix
-    ./nvidia
     ./../modules
+   # ./nvidia.nix
     ];
 
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
 
   # boot
   boot.loader = {
