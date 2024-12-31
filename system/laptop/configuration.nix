@@ -4,7 +4,7 @@
   imports = [ 
     ./hardware-configuration.nix
     ./../modules
-   # ./nvidia.nix
+    # ./nvidia.nix
     ];
 
   services.displayManager.sddm.enable = true;
@@ -47,7 +47,10 @@
 
   # 创建用户组
   users.groups.muchstarlight = {};
-  
+
+  boot.kernel.sysctl = {
+    "kernel.sysrq" = 1;
+  };
 
   # 软件
   environment.systemPackages = with pkgs; [
