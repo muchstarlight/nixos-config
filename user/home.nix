@@ -108,7 +108,6 @@
     lazygit
 
     telegram-desktop
-    dae
 
     nautilus
     tofi

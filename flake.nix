@@ -6,7 +6,7 @@
     nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
     
     # dae
-    # daeuniverse.url = "github:daeuniverse/flake.nix";
+    daeuniverse.url = "github:daeuniverse/flake.nix";
 
     # home-manager
     home-manager = {
@@ -21,10 +21,10 @@
         system = "x86_64-linux";
         modules = [
 	  # dae
-          # inputs.daeuniverse.nixosModules.dae
-          # inputs.daeuniverse.nixosModules.daed
+          inputs.daeuniverse.nixosModules.dae
+          inputs.daeuniverse.nixosModules.daed
 	  # configuration
-          ./system/laptop/configuration.nix
+          ./machine/laptop/configuration.nix
 	  # user program
           ./user/default.nix
 	  # home manager

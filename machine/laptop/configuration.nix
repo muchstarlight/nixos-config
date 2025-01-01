@@ -57,7 +57,6 @@
   # 软件
   environment.systemPackages = with pkgs; [
     # 代理
-    clash-verge-rev
     clash-meta
     
     # 浏览器

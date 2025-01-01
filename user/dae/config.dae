@@ -1,0 +1,29 @@
+global{
+	log_level: info
+	wan_interface: auto
+	auto_config_kernel_parameter: true
+}
+dns {
+  upstream {
+    alidns: 'udp://223.5.5.5:53'
+  }
+  routing {
+    request {
+      fallback: alidns
+    }
+  }
+}
+group {
+	clash {
+		policy: fixed(0)
+	}
+}
+routing {
+	domain(geosite:cn) -> direct
+	ip(geoip:private) -> direct
+	ip(geoip:cn) -> direct
+	fallback: clash
+}
+node {
+	local:'socks5://192.168.2.10:7890'
+}
