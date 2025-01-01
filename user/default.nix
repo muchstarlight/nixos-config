@@ -4,6 +4,5 @@
   imports = [
     ./fcitx5
     ./fhs
-    ./dae
   ];
 }

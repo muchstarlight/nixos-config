@@ -4,7 +4,8 @@
   imports = [ 
     ./hardware-configuration.nix
     ./../modules
-    ./nvidia.nix
+    ./nvidia
+    ./dae
     ];
 
   services.displayManager.sddm.enable = true;
