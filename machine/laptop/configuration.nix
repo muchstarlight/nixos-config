@@ -1,11 +1,11 @@
-{ config, lib, pkgs,  ... }:
+{ config, lib, pkgs, ... }:
 
 { 
   imports = [ 
     ./hardware-configuration.nix
     ./../modules
     ./nvidia
-    ./dae
+    ./network
     ];
 
   services.displayManager.sddm.enable = true;
@@ -59,6 +59,8 @@
   environment.systemPackages = with pkgs; [
     # 代理
     clash-meta
+    dae
+    daed
     
     # 浏览器
     firefox
