@@ -100,11 +100,20 @@
     noto-fonts-cjk-serif
     source-code-pro
     hack-font
+    fira-mono
 
+    thefuck
     cmd-wrapped
+    tldr
+    lazygit
 
     telegram-desktop
+    dae
 
+    nautilus
+    tofi
+    waybar
+    mako
   ];
 
   # vscode
@@ -137,6 +146,7 @@
       line_break.disabled = true;
     };
   };
+  
 
   # firefox
   programs.firefox.enable = true;
@@ -148,6 +158,8 @@
     bashrcExtra = ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
       export HISTTIMEFORMAT="%F %T "
+      export TLDR_LANGUAGE="zh"
+      eval "$(thefuck --alias)"
     '';
 
     # TODO 设置一些别名方便使用，你可以根据自己的需要进行增删

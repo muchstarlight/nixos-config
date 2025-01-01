@@ -3,5 +3,6 @@
 {
   imports = [
     ./fcitx5
+    # ./dae
   ];
 }
