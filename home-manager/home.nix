@@ -103,7 +103,7 @@
     source-code-pro
     hack-font
     fira-mono
-
+    firefox
     telegram-desktop
   ];
 
