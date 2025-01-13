@@ -105,6 +105,8 @@
     fira-mono
     firefox
     telegram-desktop
+
+    colmena
   ];
 
   # vscode 相关配置 
