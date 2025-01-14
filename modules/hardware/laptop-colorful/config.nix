@@ -49,6 +49,18 @@
     vim
   ];
 
+  # nvidia
+  services.xserver.videoDrivers = ["nvidia" "modesetting"];
+  hardware.nvidia = {
+    # version
+    package = config.boot.kernelPackages.nvidiaPackages.production;
+    modesetting.enable = true;
+    
+    open = false;
+  };
+  hardware.graphics.enable = true;
+  
+
   # flake
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
