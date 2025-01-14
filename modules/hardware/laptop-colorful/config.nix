@@ -50,16 +50,21 @@
   ];
 
   # nvidia
-  services.xserver.videoDrivers = ["nvidia" "modesetting"];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     # version
     package = config.boot.kernelPackages.nvidiaPackages.production;
-    modesetting.enable = true;
-    
     open = false;
+    prime = {
+      offload = {
+			  enable = true;
+			  enableOffloadCmd = true;
+		  };
+
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
-  hardware.graphics.enable = true;
-  
 
   # flake
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
