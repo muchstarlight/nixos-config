@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    ./../modules/hardware/laptop-colorful
+    ./../modules/hardware
     ./../modules/common/dae
     ./../modules/common/fcitx5
     ./../modules/common/fhs

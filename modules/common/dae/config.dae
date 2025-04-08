@@ -1,10 +1,12 @@
 global{
+  # 使用 "auto" 自动侦测 WAN 接口。
   wan_interface: auto
 
   log_level: info
   allow_insecure: false
   auto_config_kernel_parameter: true
 }
+
 subscription {
   # 代理地址扣了
 }
