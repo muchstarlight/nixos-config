@@ -2,7 +2,7 @@
 
 {
   programs.niri.enable = true;
-  programs.niri.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     fuzzel
     mako
     waybar
