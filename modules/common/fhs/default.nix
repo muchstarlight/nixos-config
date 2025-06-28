@@ -1,11 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
-  # ......
 
   environment.systemPackages = with pkgs;
     [
-      # ......o
 
       # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
       (let base = pkgs.appimageTools.defaultFhsEnvArgs;
@@ -27,5 +25,4 @@
       }))
     ];
 
-  # ......
 }
