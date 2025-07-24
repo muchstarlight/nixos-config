@@ -5,8 +5,6 @@
     ./../modules/common/dae
     ./../modules/common/fcitx5
     ./../modules/common/fhs
-    ./../modules/common/ChineseSoftware
-    ./../modules/common/fcitx5
   ];
 }
 

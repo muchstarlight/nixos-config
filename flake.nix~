@@ -14,7 +14,7 @@
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
-      laptop = nixpkgs.lib.nixosSystem {
+      Laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/laptop-colorful.nix

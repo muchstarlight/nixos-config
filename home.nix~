@@ -132,12 +132,11 @@
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
       export HISTTIMEFORMAT="%F %T "
 	  export EDITOR='vim'
+	  export fastfetch="fastfetch -l arch"
     '';
 
     # TODO 设置一些别名方便使用，你可以根据自己的需要进行增删
     shellAliases = {
-      fastfetch = 
-		  "fastfetch -l arch";
 	  nrebuild = 
 		  "sudo nixos-rebuild switch";
       urldecode =
