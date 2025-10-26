@@ -2,7 +2,7 @@
 {
   environment.systemPackages = [
     pkgs.qq
-	pkgs.wechat
+	  pkgs.wechat
   ];
 }
 
