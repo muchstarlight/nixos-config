@@ -1,14 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, niri, ... }:
 {
   imports = [
     ./laptop-specific.nix
     ./hardware-configuration.nix
-    ./../../modules/hardware/laptop
     ./../../modules/common/dae
     ./../../modules/common/fcitx5
     ./../../modules/common/fhs
     ./../../modules/common/ChineseSoftware
-    ./../../modules/common/fcitx5
+    ./../../modules/base/system.nix
+    ./../../modules/base/users.nix
   ];
 }
 

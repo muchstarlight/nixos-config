@@ -10,6 +10,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: {
@@ -23,7 +24,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.muchstarlight = import ./home/home.nix;
+            home-manager.users.muchstarlight = import ./modules/home/home.nix;
             home-manager.extraSpecialArgs = inputs;
           }
         ];
