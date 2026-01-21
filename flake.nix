@@ -24,26 +24,17 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.muchstarlight = import ./modules/home/home.nix;
+            home-manager.users.muchstarlight = { config, pkgs, ... }: {
+              imports = [
+                ./modules/home/base.nix
+                ./modules/home/apps.nix
+                ./modules/home/cli-tools.nix
+              ];
+            };
             home-manager.extraSpecialArgs = inputs;
           }
         ];
       };
-      desktop = nixpkgs.lib.nixosSystem {
-	system = "x86_64-linux";
-	modules = [
-	  ./hosts/desktop/configuration.nix
-	
-	  home-manager.nixosModules.home-manager
-	  {
-	    home-manager.useGlobalPkgs = true;
-	    home-manager.useUserPackages = true;
-	    home-manager.users.muchstarlight = import ./modules/home/home.nix;
-	    home-manager.extraSpecialArgs = inputs;
-	  }
-	];
-      };
     };
   };
 }
-
