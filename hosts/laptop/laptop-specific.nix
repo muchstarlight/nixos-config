@@ -1,6 +1,12 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
+  # 使用最新内核以获得更好的硬件支持 (Intel 12th Gen + NVIDIA)
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Intel CPU 散热管理服务
+  services.thermald.enable = true;
+
   # unfree
   nixpkgs.config.allowUnfree = true;
 

@@ -1,81 +1,70 @@
-{ config, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 {
   # NVIDIA显卡配置 (适用于Intel + NVIDIA Optimus笔记本)
-  # 注意：请根据您的PCI总线ID修改prime配置
 
   # 启用NVIDIA专有驱动
   services.xserver.videoDrivers = ["nvidia"];
 
-  # 禁止开源驱动nouveau
-  boot.blacklistedKernelModules = [ "nouveau" ];
-
   hardware.nvidia = {
-    # 使用最新稳定驱动 (适配RTX 4050 Laptop GPU)
-    # 可选: nvidiaPackages.beta (测试版), nvidiaPackages.production (稳定版)
+    # 使用最新稳定驱动
+    # 既然在Arch下官方run文件有效，这里使用production或stable通常是最安全的
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-    # 使用专有驱动，非开源驱动
+    # 必须使用专有驱动 (open = false)，否则RTX 40系列在某些移动端可能出现固件加载问题
     open = false;
 
-    # 启用DRM内核模式设置 (改善启动画面和Wayland兼容性)
+    # 启用DRM内核模式设置
     modesetting.enable = true;
 
-    # 启用电源管理 (笔记本节能)
+    # 启用电源管理
+    # 注意：finegrained设置为true曾导致卡死，因此改为false以提高稳定性
     powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    powerManagement.finegrained = false;
 
     # 启用NVIDIA设置工具
     nvidiaSettings = true;
 
-    # Optimus配置 (Intel核显 + NVIDIA独显)
+    # Optimus配置
     prime = {
-      # 启用同步显示 (独显通过核显输出) - 适用于Xorg
-      sync.enable = true;
+      # ！！！重要：Sync和Offload模式互斥，不能同时开启！！！
+      
+      # 模式1: Offload (默认推荐) - 平时使用核显，按需调用独显，省电。
+      # 运行需要独显的程序时使用: nvidia-offload <command>
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
 
-      # 启用GPU卸载模式 - 允许程序选择使用哪张显卡
-      offload.enable = true;
-      offload.enableOffloadCmd = true;
+      # 模式2: Sync - 独显一直工作，性能最好但耗电。
+      # 如果需要切换到此模式，请将 offload.enable 改为 false，并取消下面 sync.enable 的注释
+      # sync.enable = true;
 
-      # Intel集成显卡 (核显) - 负责显示输出
-      # 使用以下命令获取PCI总线ID：
-      #   lspci | grep -E "VGA|Display" | grep Intel
-      # 输出示例：00:02.0 VGA compatible controller: Intel Corporation ...
-      # 将 "00:02.0" 转换为 "PCI:0:2:0" 格式 (去掉点，冒号改为冒号)
-      intelBusId = "PCI:0:2:0";  # 示例，请根据实际修改
+      # Bus ID 配置 (请务必核对 `lspci` 输出)
+      # Intel核显通常是 00:02.0 -> PCI:0:2:0
+      intelBusId = "PCI:0:2:0"; 
 
-      # NVIDIA独立显卡 - 负责渲染
-      # 使用以下命令获取PCI总线ID：
-      #   lspci | grep -E "VGA|3D|Display" | grep NVIDIA
-      # 输出示例：01:00.0 VGA compatible controller: NVIDIA Corporation ...
-      # 将 "01:00.0" 转换为 "PCI:1:0:0" 格式
-      nvidiaBusId = "PCI:1:0:0";  # 示例，请根据实际修改
+      # NVIDIA独显通常是 01:00.0 -> PCI:1:0:0
+      nvidiaBusId = "PCI:1:0:0";
     };
   };
 
-  # 环境变量 (可选，改善兼容性)
+  # 仅保留必要的环境变量，移除强制全局使用NVIDIA的设置
   environment.variables = {
-    # 使用NVIDIA作为主要渲染器
-    "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
-    # 强制使用NVIDIA显卡 (某些应用)
-    "GBM_BACKEND" = "nvidia-drm";
-    # Wayland相关
-    "WLR_NO_HARDWARE_CURSORS" = "1";
-    # 避免某些应用黑屏
+    # 避免某些应用在Wayland下黑屏
     "LIBVA_DRIVER_NAME" = "nvidia";
+    # 尝试修复Firefox/Electron应用的闪烁问题
+    "NIXOS_OZONE_WL" = "1";
   };
-
-  # 内核参数 (改善兼容性)
-  boot.kernelParams = [
-    # 禁用Nouveau驱动
-    "modprobe.blacklist=nouveau"
-    # 启用NVIDIA DRM
-    "nvidia-drm.modeset=1"
+  
+  # 添加一个方便的脚本别名来运行独显程序 (如果 prime.offload.enableOffloadCmd 未自动生效)
+  environment.systemPackages = with pkgs; [
+    (pkgs.writeShellScriptBin "nvidia-offload" ''
+      export __NV_PRIME_RENDER_OFFLOAD=1
+      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      export VK_DRIVER_FILES=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json
+      exec "$@"
+    '')
   ];
-
-  # 服务配置
-  services.xserver.displayManager.sessionCommands = ''
-    # 设置NVIDIA为默认渲染器
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  '';
 }

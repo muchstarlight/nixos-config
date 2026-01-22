@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./niri.nix
+    ./waybar.nix
+  ];
+
   # 注意修改这里的用户名与用户目录
   home.username = "muchstarlight";
   home.homeDirectory = "/home/muchstarlight";

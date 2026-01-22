@@ -11,14 +11,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # niri
+    niri.url = "github:sodiboo/niri-flake";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ nixpkgs, home-manager, niri, ... }: {
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/laptop/configuration.nix
+          
+          # Niri 模块 (系统级)
+          niri.nixosModules.niri
 
           home-manager.nixosModules.home-manager
           {
