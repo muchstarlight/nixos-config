@@ -1,0 +1,12 @@
+layout {
+    gaps 16
+    center-focused-column "never"
+    // 允许 Noctalia 提供桌面壁纸。
+    background-color "transparent"
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    struts {}
+}

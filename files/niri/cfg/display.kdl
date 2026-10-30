@@ -1,0 +1,14 @@
+// 外屏优先策略由 niri-output-policy.service 管理。
+// 内屏不写死 off，确保拔掉外屏后能够自动恢复。
+
+output "DP-2" {
+    mode "2560x1440@180.000"
+    scale 1
+    position x=0 y=0
+    focus-at-startup
+}
+
+output "eDP-1" {
+    mode "1920x1080@144.003"
+    scale 1
+}

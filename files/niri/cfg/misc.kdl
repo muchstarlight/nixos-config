@@ -1,0 +1,41 @@
+prefer-no-csd
+screenshot-path null
+
+environment {
+    GSK_RENDERER "gl"
+    __NV_PRIME_RENDER_OFFLOAD "1"
+    __GLX_VENDOR_LIBRARY_NAME "nvidia"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    GTK_IM_MODULE "fcitx"
+    QT_IM_MODULE "fcitx"
+    XMODIFIERS "@im=fcitx"
+    SDL_IM_MODULE "fcitx"
+    QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+}
+
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 24
+}
+
+blur {
+    passes 2
+    offset 3.0
+    noise 0.03
+    saturation 1.0
+}
+
+debug {
+    // 允许 Noctalia 的通知操作和窗口激活。
+    honor-xdg-activation-with-invalid-serial
+    // 内屏物理连接到 Intel，Niri 合成仍使用 NVIDIA。
+    render-drm-device "/dev/dri/by-path/pci-0000:01:00.0-render"
+}
+
+hotkey-overlay {
+    skip-at-startup
+}

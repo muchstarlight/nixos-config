@@ -1,0 +1,12 @@
+[shell]
+polkit_agent = true
+lang = "zh-Hans"
+
+[location]
+# 固定上海，避免代理出口或自动定位改变天气城市。
+auto_locate = false
+address = "Shanghai"
+
+[weather]
+enabled = true
+unit = "metric"

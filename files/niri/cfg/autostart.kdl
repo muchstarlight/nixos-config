@@ -1,0 +1,4 @@
+spawn-at-startup "noctalia"
+
+// 同步独显优先变量给 D-Bus 和 systemd 激活的用户应用。
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "__NV_PRIME_RENDER_OFFLOAD" "__GLX_VENDOR_LIBRARY_NAME"
