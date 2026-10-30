@@ -1,6 +1,7 @@
 {
   migrationPreview ? true,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -18,6 +19,21 @@
   hardware.i2c.enable = true;
   networking.hostName = "laptop";
   time.timeZone = "Asia/Shanghai";
+
+  services.greetd = {
+    enable = true;
+    useTextGreeter = true;
+    settings = {
+      initial_session = {
+        user = "muchstarlight";
+        command = "${pkgs.niri}/bin/niri-session";
+      };
+      default_session = {
+        user = "greeter";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${pkgs.niri}/bin/niri-session";
+      };
+    };
+  };
 
   system.stateVersion = "26.05";
 

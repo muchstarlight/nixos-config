@@ -32,6 +32,7 @@ let
   noLaptopPolicy =
     cfg:
     !cfg.services.dae.enable
+    && !cfg.services.greetd.enable
     && !cfg.programs.localsend.enable
     && cfg.networking.wg-quick.interfaces == { }
     && cfg.fileSystems == { }
@@ -167,7 +168,21 @@ in
     assert cfg.programs.niri.enable;
     assert !cfg.services.xserver.enable;
     assert !cfg.services.displayManager.sddm.enable;
-    assert !cfg.services.greetd.enable;
+    assert cfg.services.greetd.enable;
+    assert cfg.services.greetd.useTextGreeter;
+    assert !cfg.services.greetd.restart;
+    assert
+      cfg.services.greetd.settings.initial_session == {
+        user = "muchstarlight";
+        command = "${pkgs.niri}/bin/niri-session";
+      };
+    assert
+      cfg.services.greetd.settings.default_session == {
+        user = "greeter";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${pkgs.niri}/bin/niri-session";
+      };
+    assert installedLaptop.config.services.greetd.settings == cfg.services.greetd.settings;
+    assert cfg.security.pam.services.greetd.enableGnomeKeyring;
     assert cfg.services.getty.autologinUser == null;
     assert builtins.elem "vmd" cfg.boot.initrd.availableKernelModules;
     assert builtins.all (name: builtins.elem name cfg.boot.kernelModules) [
@@ -175,7 +190,9 @@ in
       "nvidia_modeset"
       "nvidia_drm"
     ];
-    pkgs.runCommand "tty-niri-session-check" { } ''
+    pkgs.runCommand "greetd-niri-session-check" { } ''
+      test -x ${pkgs.greetd}/bin/greetd
+      test -x ${pkgs.tuigreet}/bin/tuigreet
       test -x ${pkgs.niri}/bin/niri-session
       test -f ${pkgs.niri}/lib/systemd/user/niri.service
       test -f ${cfg.i18n.inputMethod.package}/etc/xdg/autostart/org.fcitx.Fcitx5.desktop

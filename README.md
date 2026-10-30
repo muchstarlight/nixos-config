@@ -5,7 +5,7 @@
 ## 环境
 
 - ZEN 内核、Intel + NVIDIA open 混合显卡。
-- TTY 登录后运行 `niri-session`，使用 Noctalia 桌面外壳。
+- Niri + Noctalia 桌面。
 - Fcitx5/Rime、PipeWire、NetworkManager、dae、WireGuard。
 - Home Manager 管理 Fish、Pi、Node.js、Obsidian、VSCodium 与 Zen 等用户应用。
 - GnuPG、GPG Agent 与 Qt 密码输入窗口，集成 Fish 终端环境。
