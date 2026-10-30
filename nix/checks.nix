@@ -70,7 +70,20 @@ in
     assert cfg.security.sudo.wheelNeedsPassword;
     assert builtins.length rules == 1;
     assert (builtins.head rules).runAs == "root";
-    assert (builtins.head (builtins.head rules).commands).command == command;
+    assert
+      (builtins.head rules).commands == map
+        (action: {
+          command = "/run/current-system/sw/bin/nixos-rebuild ${action} --flake /etc/nixos";
+          options = [
+            "NOPASSWD"
+            "NOSETENV"
+          ];
+        })
+        [
+          "switch"
+          "dry-activate"
+          "test"
+        ];
     assert cfg.home-manager.users.muchstarlight.programs.fish.shellAliases.rebuild == "sudo ${command}";
     pkgs.runCommand "nixos-maintenance-check" { nativeBuildInputs = [ pkgs.python3 ]; } ''
       export PYTHONDONTWRITEBYTECODE=1
@@ -93,6 +106,36 @@ in
     assert cfg.boot.loader.grub.enable;
     assert builtins.any (entry: entry.efiBootloaderId == "NixOS") cfg.boot.loader.grub.mirroredBoots;
     pkgs.runCommand "nixos-install-layout-check" { } ''
+      touch "$out"
+    '';
+
+  default-editor =
+    let
+      cfg = installedLaptop.config;
+    in
+    assert cfg.programs.vim.enable;
+    assert cfg.programs.vim.defaultEditor;
+    assert cfg.environment.sessionVariables.EDITOR == "vim";
+    assert cfg.environment.sessionVariables.VISUAL == "vim";
+    pkgs.runCommand "default-editor-check" { } ''
+      test -x ${cfg.programs.vim.package}/bin/vim
+      touch "$out"
+    '';
+
+  grub-entries =
+    let
+      cfg = installedLaptop.config;
+      entries = cfg.boot.loader.grub.extraEntries;
+      entriesFile = pkgs.writeText "grub-extra-entries.cfg" entries;
+    in
+    assert !cfg.boot.loader.grub.useOSProber;
+    assert pkgs.lib.hasInfix "--fs-uuid --set=windowsesp 4BA0-87E9" entries;
+    assert pkgs.lib.hasInfix "chainloader ($windowsesp)/EFI/Microsoft/Boot/bootmgfw.efi" entries;
+    assert pkgs.lib.hasInfix "configfile ($archroot)/@/boot/grub/grub.cfg" entries;
+    assert !laptop.config.boot.loader.grub.enable;
+    assert laptop.config.boot.loader.grub.extraEntries == "";
+    pkgs.runCommand "grub-entries-check" { nativeBuildInputs = [ pkgs.grub2_efi ]; } ''
+      grub-script-check ${entriesFile}
       touch "$out"
     '';
 

@@ -24,15 +24,21 @@
     wireplumber.enable = true;
   };
   programs.fish.enable = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
+  environment.sessionVariables.VISUAL = "vim";
 
   environment.systemPackages = with pkgs; [
     git
-    vim
+    nixfmt
     curl
     wget
     btop
     fastfetch
     ripgrep
+    rtk
     pciutils
     usbutils
     libva-utils

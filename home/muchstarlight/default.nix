@@ -19,6 +19,7 @@ in
     piAgent
     nodejs_24
     obsidian
+    siyuan
     yazi
     eza
     tmux

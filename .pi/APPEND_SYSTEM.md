@@ -7,3 +7,12 @@
 - 新增模块、选项、包装层或目录须有当前具体用途，不为假设需求提前抽象。
 - 交接和过程记录单独存放，不写入配置或项目文档。
 - 不将历史讨论中的选择推定为当前要求或永久约束。
+
+# NixOS 维护命令
+
+- 以下命令已配置 sudo 免密，路径和参数须精确匹配：
+  ```bash
+  sudo /run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos
+  sudo /run/current-system/sw/bin/nixos-rebuild dry-activate --flake /etc/nixos
+  ```
+- `switch` 会应用配置；`dry-activate` 仅预览激活变更，不切换配置。

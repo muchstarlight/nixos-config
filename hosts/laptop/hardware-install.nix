@@ -49,6 +49,13 @@ in
       }
     ];
     extraEntries = ''
+      menuentry 'Windows Boot Manager' --class windows --id windows {
+        insmod part_gpt
+        insmod fat
+        insmod chain
+        search --no-floppy --fs-uuid --set=windowsesp 4BA0-87E9
+        chainloader ($windowsesp)/EFI/Microsoft/Boot/bootmgfw.efi
+      }
       menuentry 'Arch Linux（迁移回退）' {
         insmod btrfs
         search --no-floppy --fs-uuid --set=archroot b0b747b2-41dd-4504-aeb3-f2c5de97318d

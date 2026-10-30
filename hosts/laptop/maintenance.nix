@@ -4,15 +4,20 @@
     {
       users = [ "muchstarlight" ];
       runAs = "root";
-      commands = [
-        {
-          command = "/run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos";
-          options = [
-            "NOPASSWD"
-            "NOSETENV"
+      commands =
+        map
+          (action: {
+            command = "/run/current-system/sw/bin/nixos-rebuild ${action} --flake /etc/nixos";
+            options = [
+              "NOPASSWD"
+              "NOSETENV"
+            ];
+          })
+          [
+            "switch"
+            "dry-activate"
+            "test"
           ];
-        }
-      ];
     }
   ];
 
