@@ -37,7 +37,7 @@ in
 {
   services.dae = {
     enable = true;
-    package = inputs.nixpkgs-network.legacyPackages.${pkgs.stdenv.hostPlatform.system}.dae;
+    package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.dae;
     configFile = "${privateDirectory}/dae/config.dae";
     openFirewall.enable = false;
   };

@@ -5,6 +5,7 @@
 }:
 let
   pkgs = inputs.nixpkgs.legacyPackages.${system};
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
   assets = pkgs.symlinkJoin {
     name = "dae-assets";
     paths = laptop.config.services.dae.assets;
@@ -15,14 +16,17 @@ in
   noctalia = inputs.noctalia.packages.${system}.default;
   inherit (pkgs) niri;
   installer-tools = pkgs.nixos-install-tools;
-  dae = inputs.nixpkgs-network.legacyPackages.${system}.dae;
-  pi = inputs.nixpkgs-network.legacyPackages.${system}.pi-coding-agent;
+  dae = unstable.dae;
+  pi = unstable.pi-coding-agent;
+  vscodium = unstable.vscodium;
+  localsend = laptop.config.programs.localsend.package;
+  zen-browser = inputs.zen-browser.packages.${system}.beta;
   network-controller = laptop.config.system.build.networkController;
   network-assets = assets;
   network-bootstrap = pkgs.symlinkJoin {
     name = "nixos-network-bootstrap";
     paths = [
-      inputs.nixpkgs-network.legacyPackages.${system}.dae
+      unstable.dae
       laptop.config.system.build.networkController
       assets
     ]

@@ -7,6 +7,8 @@
 }:
 let
   pkgs = inputs.nixpkgs.legacyPackages.${system};
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+  zen = inputs.zen-browser.packages.${system}.beta;
   noctalia = inputs.noctalia.packages.${system}.default;
   cfgController = laptop.config.system.build.networkController;
   isolatedHost = mkHost {
@@ -30,6 +32,7 @@ let
   noLaptopPolicy =
     cfg:
     !cfg.services.dae.enable
+    && !cfg.programs.localsend.enable
     && cfg.networking.wg-quick.interfaces == { }
     && cfg.fileSystems == { }
     && !builtins.hasAttr "nixos-config-link" cfg.system.activationScripts
@@ -93,6 +96,27 @@ in
       touch "$out"
     '';
 
+  gpg-config =
+    let
+      homeCfg = installedLaptop.config.home-manager.users.muchstarlight;
+      agent = homeCfg.services.gpg-agent;
+      agentConfig =
+        pkgs.writeText "gpg-agent.conf"
+          homeCfg.home.file."${homeCfg.programs.gpg.homedir}/gpg-agent.conf".text;
+    in
+    assert homeCfg.programs.gpg.enable;
+    assert agent.enable;
+    assert agent.enableFishIntegration;
+    assert !agent.enableSshSupport;
+    assert builtins.hasAttr "gpg-agent" homeCfg.systemd.user.sockets;
+    assert pkgs.lib.hasInfix "set -gx GPG_TTY (tty)" homeCfg.programs.fish.interactiveShellInit;
+    pkgs.runCommand "gpg-config-check" { } ''
+      test -x ${homeCfg.programs.gpg.package}/bin/gpg
+      test -x ${agent.pinentry.package}/bin/${agent.pinentry.program}
+      grep -Fx 'pinentry-program ${agent.pinentry.package}/bin/${agent.pinentry.program}' ${agentConfig}
+      touch "$out"
+    '';
+
   session-config =
     let
       cfg = laptop.config;
@@ -135,6 +159,29 @@ in
       python3 ${../tests/network-provision.py} ${../scripts/provision-network-secrets.py}
       python3 ${../tests/network-runtime.py} ${cfgController}/bin/home-network-switch
       python3 ${../scripts/provision-network-secrets.py} --help > /dev/null
+      touch "$out"
+    '';
+
+  application-sources =
+    let
+      cfg = installedLaptop.config;
+      homePackages = map toString cfg.home-manager.users.muchstarlight.home.packages;
+    in
+    assert cfg.services.dae.package.drvPath == unstable.dae.drvPath;
+    assert cfg.programs.localsend.enable;
+    assert cfg.programs.localsend.openFirewall;
+    assert cfg.programs.localsend.package.drvPath == unstable.localsend.drvPath;
+    assert builtins.elem 53317 cfg.networking.firewall.allowedTCPPorts;
+    assert builtins.elem 53317 cfg.networking.firewall.allowedUDPPorts;
+    assert builtins.all (package: builtins.elem (toString package) homePackages) [
+      unstable.pi-coding-agent
+      unstable.vscodium
+      zen
+    ];
+    pkgs.runCommand "application-sources-check" { } ''
+      test -x ${unstable.vscodium}/bin/codium
+      test -x ${cfg.programs.localsend.package}/bin/localsend_app
+      test -x ${zen}/bin/zen-beta
       touch "$out"
     '';
 

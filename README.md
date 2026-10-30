@@ -7,8 +7,10 @@
 - ZEN 内核、Intel + NVIDIA open 混合显卡。
 - TTY 登录后运行 `niri-session`，使用 Noctalia 桌面外壳。
 - Fcitx5/Rime、PipeWire、NetworkManager、dae、WireGuard。
-- Home Manager 管理 Fish、Pi、Node.js、Obsidian 等用户应用。
-- AppImage binfmt 支持，包含 Zen 媒体播放所需的 FFmpeg 运行库。
+- Home Manager 管理 Fish、Pi、Node.js、Obsidian、VSCodium 与 Zen 等用户应用。
+- GnuPG、GPG Agent 与 Qt 密码输入窗口，集成 Fish 终端环境。
+- LocalSend 由 NixOS 管理，同时放行文件接收端口。
+- 保留 AppImage binfmt 支持与 FFmpeg 运行库，兼容尚未迁移的应用。
 
 输入版本见 [`flake.nix`](flake.nix) 和 [`flake.lock`](flake.lock)，NVIDIA 驱动版本见 [`modules/hardware/nvidia.nix`](modules/hardware/nvidia.nix)。
 
@@ -42,6 +44,29 @@ sudo /run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos
 ```
 
 `/etc/nixos` 链接到本仓库。该固定命令配置了免密 sudo，其他命令仍需密码。
+
+## 应用来源与更新
+
+| 输入 | 用途 |
+|---|---|
+| `nixpkgs` | NixOS 稳定分支，系统基础与默认软件包 |
+| `nixpkgs-unstable` | VSCodium、LocalSend、dae、Pi |
+| `zen-browser` | `zen-browser-flake` 的 beta 分支，复用 unstable 包集 |
+
+Noctalia 保留自身的上游依赖。单独更新应用来源：
+
+```bash
+nix flake update nixpkgs-unstable zen-browser
+bash scripts/check.sh --build
+```
+
+审阅 `flake.lock` 后再执行 `rebuild`；更新锁文件不会自动切换正在运行的软件。
+
+### 首次从 AppImage 切换
+
+切换后，先备份并移出 `~/.local/share/applications` 中的旧 AppImage 入口：`vscodium.desktop`、`localsend.desktop`、`zen_browser.desktop` 与 `userapp-Zen-*.desktop` 会留下重复项，旧入口仍启动 AppImage。旧默认浏览器关联也需在新 Zen 中重新设置；`Mod+B` 仍打开 Firefox。
+
+保留 `~/AppImages` 和应用配置目录，直到确认新包启动、配置与数据正常。
 
 ## 主机边界
 

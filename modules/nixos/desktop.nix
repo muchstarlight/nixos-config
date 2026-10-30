@@ -1,5 +1,15 @@
-{ pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}:
+{
+  programs.localsend = {
+    enable = true;
+    package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.localsend;
+    openFirewall = true;
+  };
+
   programs.appimage = {
     enable = true;
     binfmt = true;

@@ -6,12 +6,18 @@
 }:
 let
   noctalia = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  zen = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta;
 in
 {
   imports = [ ../../home/muchstarlight ];
 
   programs.fish.shellAliases.rebuild = "sudo /run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos";
-  home.packages = [ noctalia ];
+  home.packages = [
+    noctalia
+    unstable.vscodium
+    zen
+  ];
 
   xdg.configFile."niri" = {
     source = ../../files/niri;

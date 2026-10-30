@@ -9,8 +9,12 @@
     };
     # 保留上游依赖，避免稳定分支 libqalculate 的兼容问题。
     noctalia.url = "github:noctalia-dev/noctalia/v5.3.0";
-    # 稳定分支的 dae 与 Pi 版本较旧，单独固定包来源。
-    nixpkgs-network.url = "github:NixOS/nixpkgs/31ecbaca1bdefa45dffc409f0250bd8039ea0010";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake/beta";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
