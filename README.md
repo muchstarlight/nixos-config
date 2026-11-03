@@ -45,6 +45,14 @@ sudo /run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos
 
 `/etc/nixos` 链接到本仓库。该固定命令配置了免密 sudo，其他命令仍需密码。
 
+## GRUB 启动选择
+
+只记住 Windows 和 NixOS 主入口；Arch 回退、NixOS 历史代际及其他入口保留上一次选择。首次启动或记录值无效时默认 NixOS 主入口，系统更新后仍指向最新配置。
+
+记录位于 ESP 的 `/boot/efi/EFI/NixOS/selection.env`，重建时保留。记录缺失或为空时跳过保存，不阻断启动。安装引导器时检查 ESP 挂载和环境文件有效性；若文件损坏，先备份并移走，再重建以重新创建。
+
+原生 `grub-reboot` 的一次性启动记录仍在 Btrfs，GRUB 无法可靠清除，不应依赖它进行一次性启动；需要时手动选择菜单项。
+
 ## 应用来源与更新
 
 | 输入 | 用途 |

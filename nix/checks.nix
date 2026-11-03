@@ -126,19 +126,40 @@ in
   grub-entries =
     let
       cfg = installedLaptop.config;
-      entries = cfg.boot.loader.grub.extraEntries;
-      entriesFile = pkgs.writeText "grub-extra-entries.cfg" entries;
+      grub = cfg.boot.loader.grub;
+      entries = grub.extraEntries;
+      entriesFile = pkgs.writeText "grub-extra-entries.cfg" (grub.extraConfig + "\n" + entries);
+      selectionConfig = pkgs.writeText "grub-selection.json" (
+        builtins.toJSON (
+          builtins.intersectAttrs {
+            default = null;
+            entryOptions = null;
+            extraConfig = null;
+            extraEntries = null;
+            extraInstallCommands = null;
+          } grub
+        )
+      );
     in
     assert !cfg.boot.loader.grub.useOSProber;
-    assert pkgs.lib.hasInfix "--fs-uuid --set=windowsesp 4BA0-87E9" entries;
-    assert pkgs.lib.hasInfix "chainloader ($windowsesp)/EFI/Microsoft/Boot/bootmgfw.efi" entries;
+    assert pkgs.lib.hasInfix "--fs-uuid --set=root 4BA0-87E9" entries;
+    assert pkgs.lib.hasInfix "chainloader /EFI/Microsoft/Boot/bootmgfw.efi" entries;
     assert pkgs.lib.hasInfix "configfile ($archroot)/@/boot/grub/grub.cfg" entries;
     assert !laptop.config.boot.loader.grub.enable;
     assert laptop.config.boot.loader.grub.extraEntries == "";
-    pkgs.runCommand "grub-entries-check" { nativeBuildInputs = [ pkgs.grub2_efi ]; } ''
-      grub-script-check ${entriesFile}
-      touch "$out"
-    '';
+    pkgs.runCommand "grub-entries-check"
+      {
+        nativeBuildInputs = [
+          pkgs.grub2_efi
+          pkgs.python3
+        ];
+      }
+      ''
+        export PYTHONDONTWRITEBYTECODE=1
+        grub-script-check ${entriesFile}
+        python3 ${../tests/grub-selection.py} ${selectionConfig}
+        touch "$out"
+      '';
 
   gpg-config =
     let

@@ -35,6 +35,7 @@
     nixfmt
     curl
     wget
+    cifs-utils
     btop
     fastfetch
     ripgrep
